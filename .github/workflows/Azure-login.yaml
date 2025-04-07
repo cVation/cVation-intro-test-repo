@@ -17,6 +17,6 @@ jobs:
 
       - name: 'Run az commands'
         uses: azure/cli@v2
-        run: |
+        with: |
           az account show
           az group list
