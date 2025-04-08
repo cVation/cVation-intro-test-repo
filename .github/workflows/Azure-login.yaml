@@ -1,5 +1,5 @@
 name: Run Azure Login with OIDC
-on: [push]
+on: gollum
 
 permissions:
   id-token: write
@@ -27,16 +27,3 @@ jobs:
         run: |
           az account show
           az group list
-        
-  checkout_docker:
-    name: Set up Docker Buildx
-    runs-on: ubuntu-latest
-    environment: Production
-    needs: login_to_azure
-    steps:
-      - uses: actions/checkout@v2
-      - uses: docker/setup-buildx-action@v2
-      - uses: docker/build-push-action@v3
-        with:
-          push: false
-
