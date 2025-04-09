@@ -16,18 +16,18 @@ jobs:
         
         - name: 'Build and push image'
           run: |
-            az acr login -n cvationintrocontainerregistry
-            docker build . -t ${{ secrets.REGISTRY_LOGIN_SERVER }}/cvationintrocontainerregistry:${{ github.sha }} -f ./app/Dockerfile 
-            docker push ${{ secrets.REGISTRY_LOGIN_SERVER }}/cvationintrocontainerregistry:${{ github.sha }}
+            az acr login -n cvationintrocontainertest
+            docker build . -t ${{ secrets.REGISTRY_LOGIN_SERVER }}/cvationintrocontainertest:${{ github.sha }} -f ./app/Dockerfile 
+            docker push ${{ secrets.REGISTRY_LOGIN_SERVER }}/cvationintrocontainertest:${{ github.sha }}
 
         - name: 'Deploy to Azure Container Instances'
           uses: 'azure/aci-deploy@v1'
           with:
             resource-group: ${{ secrets.RESOURCE_GROUP }}
             dns-name-label: ${{ secrets.RESOURCE_GROUP }}${{ github.run_number }}
-            image: ${{ secrets.REGISTRY_LOGIN_SERVER }}/cvationintrocontainerregistry:${{ github.sha }}
+            image: ${{ secrets.REGISTRY_LOGIN_SERVER }}/cvationintrocontainertest:${{ github.sha }}
             registry-login-server: ${{ secrets.REGISTRY_LOGIN_SERVER }}
             registry-username: ${{ secrets.REGISTRY_USERNAME }}
             registry-password: ${{ secrets.REGISTRY_PASSWORD }}
-            name: aci-cvationintrocontainerregistry
+            name: cvationintrocontainertest
             location: 'west europe'
