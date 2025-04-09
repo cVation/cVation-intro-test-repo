@@ -16,7 +16,7 @@ jobs:
         
         - name: 'Build and push image'
           run: |
-            az acr login -n cvationintrocontainertest
+            az acr login -n cvationintrocontainerregistry
             docker build ./app/ -t ${{ secrets.REGISTRY_LOGIN_SERVER }}/cvationintrocontainertest:${{ github.sha }} 
             docker push ${{ secrets.REGISTRY_LOGIN_SERVER }}/cvationintrocontainertest:${{ github.sha }}
 
@@ -29,5 +29,5 @@ jobs:
             registry-login-server: ${{ secrets.REGISTRY_LOGIN_SERVER }}
             registry-username: ${{ secrets.REGISTRY_USERNAME }}
             registry-password: ${{ secrets.REGISTRY_PASSWORD }}
-            name: cvationintrocontainerregistry
+            name: cvationintrocontainertest
             location: 'west europe'
