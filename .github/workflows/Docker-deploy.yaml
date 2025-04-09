@@ -18,7 +18,7 @@ jobs:
           run: |
             az acr login -n cvationintrocontainerregistry
             docker build ./app/ -t ${{ secrets.REGISTRY_LOGIN_SERVER }}/cvationintrocontainer:${{ github.sha }} 
-            docker push ${{ secrets.REGISTRY_LOGIN_SERVER }}/cvationintrocontainer:${{ github.sha }}
+            docker push ${{ secrets.REGISTRY_LOGIN_SERVER }}:3000/cvationintrocontainer:${{ github.sha }}
 
         - name: 'Deploy to Azure Container Instances'
           uses: 'azure/aci-deploy@v1'
