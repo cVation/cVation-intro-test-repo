@@ -2,7 +2,10 @@ on: [push]
 name: Linux_Container_Workflow
 
 jobs:
-    build-and-deploy:
+  
+  build-and-deploy:
+        env: 
+          IMAGE: ${{ secrets.REGISTRY_LOGIN_SERVER }}/cvationintrocontainer:${{ github.sha }} 
         runs-on: ubuntu-latest
         steps:
         # checkout the repo
@@ -17,17 +20,17 @@ jobs:
         - name: 'Build and push image'
           run: |
             az acr login -n cvationintrocontainerregistry
-            docker build ./app/ -t ${{ secrets.REGISTRY_LOGIN_SERVER }}/cvationintrocontainergit:${{ github.sha }} 
-            docker push ${{ secrets.REGISTRY_LOGIN_SERVER }}/cvationintrocontainergit:${{ github.sha }}
+            docker build ./app/ -t ${{ env.IMAGE }}
+            docker push ${{ env.IMAGE }}
 
         - name: 'Deploy to Azure Container Instances'
           uses: 'azure/aci-deploy@v1'
           with:
             resource-group: ${{ secrets.RESOURCE_GROUP }}
             dns-name-label: ${{ secrets.RESOURCE_GROUP }}${{ github.run_number }}
-            image: ${{ secrets.REGISTRY_LOGIN_SERVER }}/cvationintrocontainergit:${{ github.sha }}
+            image: ${{ env.IMAGE }}
             registry-login-server: ${{ secrets.REGISTRY_LOGIN_SERVER }}
             registry-username: ${{ secrets.REGISTRY_USERNAME }}
             registry-password: ${{ secrets.REGISTRY_PASSWORD }}
-            name: cvationintrocontainergit
+            name: cvationintrocontainer
             location: 'westeurope'
