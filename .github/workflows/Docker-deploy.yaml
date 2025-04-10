@@ -13,7 +13,7 @@ jobs:
           uses: actions/checkout@main
           
         - name: 'Login via Azure CLI'
-          uses: azure/login@v1
+          uses: azure/login@cb79c773a3cfa27f31f25eb3f677781210c9ce3d #v1
           with:
             creds: ${{ secrets.AZURE_CREDENTIALS }}
         
@@ -24,7 +24,7 @@ jobs:
             docker push ${{ env.IMAGE }}
 
         - name: 'Deploy to Azure Container Instances'
-          uses: 'azure/aci-deploy@v1'
+          uses: 'azure/aci-deploy@28cafb864979bc5b44cd1f3fd45522727eb5a3db' #v1
           with:
             resource-group: ${{ secrets.RESOURCE_GROUP }}
             dns-name-label: ${{ secrets.RESOURCE_GROUP }}${{ github.run_number }}
