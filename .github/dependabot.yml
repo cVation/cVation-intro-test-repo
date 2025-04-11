@@ -1,0 +1,14 @@
+version: 2
+
+updates: 
+  - package-ecosystem: "docker"
+    directory: 
+      - "/"
+      - "/app"
+    schedule:
+      interval: "dayily"
+    commit-message:
+      prefix: "fix(deps, docker):"
+    ignore:
+      - dependency-name: "trivy"
+        versions: ["0.61.0"]
