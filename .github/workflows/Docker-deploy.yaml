@@ -1,0 +1,40 @@
+on: [push]
+name: Linux_Container_Workflow
+
+permissions:
+  contents: read # for actions/checkout to fetch code
+  security-events: write # for github/codeql-action/upload-sarif to upload SARIF results
+  actions: read # only required for a private repository by github/codeql-action/upload-sarif to get the Action run status
+
+jobs:
+  build-and-deploy:
+        env: 
+          IMAGE: ${{ secrets.REGISTRY_LOGIN_SERVER }}/cvationintrocontainer:${{ github.sha }} 
+        runs-on: ubuntu-latest
+        steps:
+        # checkout the repo
+        - name: 'Checkout GitHub Action'
+          uses: actions/checkout@main
+          
+        - name: 'Login via Azure CLI' 
+          uses: azure/login@cb79c773a3cfa27f31f25eb3f677781210c9ce3d #v1
+          with:
+            creds: ${{ secrets.AZURE_CREDENTIALS }}
+        
+        - name: 'Build and push image'
+          run: |
+            az acr login -n cvationintrocontainerregistry
+            docker build ./app/ -t ${{ env.IMAGE }}
+            docker push ${{ env.IMAGE }}
+
+        - name: 'Deploy to Azure Container Instances'
+          uses: 'azure/aci-deploy@28cafb864979bc5b44cd1f3fd45522727eb5a3db' #v1
+          with:
+            resource-group: ${{ secrets.RESOURCE_GROUP }}
+            dns-name-label: ${{ secrets.RESOURCE_GROUP }}${{ github.run_number }}
+            image: ${{ env.IMAGE }}
+            registry-login-server: ${{ secrets.REGISTRY_LOGIN_SERVER }}
+            registry-username: ${{ secrets.REGISTRY_USERNAME }}
+            registry-password: ${{ secrets.REGISTRY_PASSWORD }}
+            name: cvationintrocontainer
+            location: 'westeurope'
