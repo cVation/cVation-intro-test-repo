@@ -6,7 +6,7 @@ updates:
       - "/"
       - "/app"
     schedule:
-      interval: "dayily"
+      interval: "daily"
     commit-message:
       prefix: "fix(deps, docker):"
     ignore:
