@@ -18,12 +18,12 @@ terraform {
     key = "prod.terraform.tfstate"
   }
 
-  cloud {
-    organization = "cVationThaTest"
-    workspaces {
-      name = "learn-terraform-azure"
-    }
-  }
+  # cloud {
+  #   organization = "cVationThaTest"
+  #   workspaces {
+  #     name = "learn-terraform-azure"
+  #   }
+  # }
 }
 
 provider "azurerm" {
