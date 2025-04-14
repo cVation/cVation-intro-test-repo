@@ -1,5 +1,7 @@
-#Terraform 
+#Docker
+*/yarn.lock*
 
+#Terraform 
 # Local .terraform directories
 **/.terraform/*
 
