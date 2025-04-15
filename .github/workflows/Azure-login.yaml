@@ -9,22 +9,17 @@ permissions:
   id-token: write
   contents: read
 
-env: 
-  AZURE_WEBAPP_NAME: getting-started
-  AZURE_WEBAPP_PACKAGE_PATH: '.\app'
-  PIP_VERSION: '25.0.1'
-
 jobs:
   login_to_azure:
     name: Checkout and Login to azure
     runs-on: ubuntu-latest
     steps: 
-      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
       - uses: azure/login@v2 
         with:
           client-id: ${{ secrets.AZURE_CLIENT_ID_TERRAFORM }}
           tenant-id: ${{ secrets.AZURE_TENANT_ID }}
           subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
 
       - name: 'Run az commands'
         run: |
