@@ -1,4 +1,4 @@
-on: [push]
+on: gollum
 name: Linux_Container_Workflow
 
 permissions:

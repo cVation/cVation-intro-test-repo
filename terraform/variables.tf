@@ -3,6 +3,16 @@ variable "resource_group_name" {
   type    = string
 }
 
+variable "service_plan_name" {
+  default = "cvation-intro-terraform-service-plan"
+  type    = string
+}
+
+variable "webapp_name" {
+  default = "cvation-intro-terraform-webapp"
+  type    = string
+}
+
 variable "ARM_SUBSCRIPTION_ID" {
   default = "4028a679-3d4e-46de-8f25-c7687e0a8dce"
   type    = string
