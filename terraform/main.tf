@@ -35,14 +35,65 @@ provider "azurerm" {
   tenant_id       = var.ARM_TENANT_ID
 }
 
-resource "azurerm_resource_group" "rg" {
-  name     = var.resource_group_name
-  location = "westeurope"
-  tags = {
-    Environment = "Terraform Getting Started"
-    Team        = "DevOps"
-  }
+data "azurerm_subscription" "current" {
 }
+
+data "azurerm_resource_group" "rg" {
+  name = var.resource_group_name
+}
+
+# resource "azurerm_resource_group" "rg" {
+#   name     = var.resource_group_name
+#   location = "westeurope"
+#   tags = {
+#     Environment = "Terraform Getting Started"
+#     Team        = "DevOps"
+#   }
+# }
+
+# resource "azurerm_federated_identity_credential" "github_oidc" {
+#   name                = var.federated_identity_credential_name 
+#   resource_group_name = var.resource_group_name
+#   audience = [ var.audience_name ]
+#   issuer = var.issuer_url 
+#   parent_id = var.user_assigned_identity_id
+#   subject = var.subject
+# }
+
+# resource "azurerm_storage_account" "account" {
+#   name = var.storage_account_name
+#   location = var.location
+#   resource_group_name = var.resource_group_name
+#   account_tier = var.account_tier
+#   account_replication_type = var.account_replication_type
+#   tags = var.tags
+# }
+
+# resource "azurerm_storage_container" "container" {
+#   name = var.container_name
+#   storage_account_name = azurerm_storage_account.account.name
+#   container_access_type = "private"
+# }
+
+# module "gh_federated_credential" {
+#   source                             = "../modules/federated-identity-credential"
+#   federated_identity_credential_name = "${var.github_organization_target}-${var.github_repository}-${var.environment}"
+#   rg_name                            = module.identity-resource-group.name
+#   user_assigned_identity_id          = module.gh_usi.user_assinged_identity_id
+#   subject                            = "repo:${var.github_organization_target}/${var.github_repository}:environment:${var.environment}"
+#   audience_name                      = local.default_audience_name
+#   issuer_url                         = local.github_issuer_url
+# }
+
+# module "gh_federated_credential-pr" {
+#   source                             = "../modules/federated-identity-credential"
+#   federated_identity_credential_name = "${var.github_organization_target}-${var.github_repository}-pr"
+#   rg_name                            = module.identity-resource-group.name
+#   user_assigned_identity_id          = module.gh_usi.user_assinged_identity_id
+#   subject                            = "repo:${var.github_organization_target}/${var.github_repository}:pull_request"
+#   audience_name                      = local.default_audience_name
+#   issuer_url                         = local.github_issuer_url
+# }
 
 resource "azurerm_service_plan" "sp" {
   name                = var.service_plan_name
